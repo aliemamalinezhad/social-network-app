@@ -1,0 +1,6 @@
+# Python Virtual Env
+venv/
+
+#Sqlite Database
+db.sqlite3
+
