@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'socialpy.urls'
 
 TEMPLATES = [
@@ -72,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'socialpy.wsgi.application'
 
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
