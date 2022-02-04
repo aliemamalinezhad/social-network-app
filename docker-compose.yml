@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  socialpy_postgresql:
+    image: postgres:12
+    container_name: socialpy_postgresql
+    volumes:
+      - socialpy_postgresql:/var/lib/postgresql/data
+    restart: always
+    env_file: .env
+    ports:
+      - "5432:5432"
+    networks:
+      - socialpy_network
+
+volumes:
+  socialpy_postgresql:
+    external: true
+
+networks:
+  socialpy_network:
+    external: true
