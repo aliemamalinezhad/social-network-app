@@ -24,5 +24,5 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ('id','last_login','groups','user_permissions',)
-        
+        exclude = ('id','groups','user_permissions',)
+
