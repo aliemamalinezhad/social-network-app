@@ -38,6 +38,7 @@ class GetUsers(APIView):
                     'phone': user.phone,
                     'password': user.password,
                     'is_staff': user.is_staff,
+                    'date_joined': user.date_joined,
                 })
 
             return Response({'data': users},
