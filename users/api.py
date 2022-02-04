@@ -4,12 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import RegisterSerializer, UserSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
+from .services import UsersService
 
 User = get_user_model()
 
 
 class RegisterApi(generics.GenericAPIView):
-
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
@@ -25,23 +25,13 @@ class RegisterApi(generics.GenericAPIView):
 
 class GetUsers(APIView):
     permission_classes = [IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         try:
-            users = []
             all_users = User.objects.all()
+            serialized_data = UserSerializer(all_users, many=True).data
 
-            for user in all_users:
-                users.append({
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'email': user.email,
-                    'phone': user.phone,
-                    'password': user.password,
-                    'is_staff': user.is_staff,
-                    'date_joined': user.date_joined,
-                })
-
-            return Response({'data': users},
+            return Response({'data': serialized_data},
                             status=status.HTTP_200_OK)
         except:
             return Response({'data': 'Internal server error'},
