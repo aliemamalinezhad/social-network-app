@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from . import serializers
 from .models import Post
+from django.shortcuts import get_object_or_404
 
 
 class PostsApiView(APIView):
@@ -36,3 +37,27 @@ class CreatePostApiView(APIView):
                 data.errors,
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
+class UpdatePostApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        serialized_data = serializers.CreatePostSerializer(instance=post, data=request.data, partial=True)
+        if serialized_data.is_valid():
+            serialized_data.save()
+            return Response(serialized_data.data, status=status.HTTP_200_OK)
+        return Response(serialized_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeletePostApiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        return Response(
+            {'status':'Item deleted sucessfully'}
+            ,status=status.HTTP_204_NO_CONTENT
+        )
